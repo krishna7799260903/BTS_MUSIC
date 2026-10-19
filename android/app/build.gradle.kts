@@ -72,10 +72,6 @@ dependencies {
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.ui)
 
-    // Room Database
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-
     // Networking, Image Loading & Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.coil.compose)

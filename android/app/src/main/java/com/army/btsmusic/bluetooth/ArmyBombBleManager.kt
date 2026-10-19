@@ -35,9 +35,12 @@ class ArmyBombBleManager(private val context: Context) {
     private val scope = CoroutineScope(Dispatchers.Main + Job())
     private var pulseJob: Job? = null
 
-    private val bluetoothManager: BluetoothManager? =
+    private val bluetoothManager: BluetoothManager? = try {
         context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-    private val bluetoothAdapter: BluetoothAdapter? = bluetoothManager?.adapter
+    } catch (e: Throwable) { null }
+    private val bluetoothAdapter: BluetoothAdapter? = try {
+        bluetoothManager?.adapter
+    } catch (e: Throwable) { null }
 
     private var bluetoothGatt: BluetoothGatt? = null
     private var writeCharacteristic: BluetoothGattCharacteristic? = null

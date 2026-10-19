@@ -7,6 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.army.btsmusic.bluetooth.ArmyBombBleManager
+import com.army.btsmusic.data.remote.YouTubeMusicService
+import com.army.btsmusic.data.repository.DownloadRepository
+import com.army.btsmusic.data.repository.MusicRepository
+import com.army.btsmusic.player.AudioEngineController
+import com.army.btsmusic.social.ListenTogetherManager
 import com.army.btsmusic.theme.BtsMusicTheme
 import com.army.btsmusic.theme.DarkBackground
 import com.army.btsmusic.ui.navigation.BtsNavigation
@@ -19,14 +25,24 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        try {
+            enableEdgeToEdge()
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
 
-        val app = application as BtsMusicApp
-        val playerViewModel = MusicPlayerViewModel(app.audioEngineController)
-        val libraryViewModel = LibraryViewModel(app.musicRepository, app.downloadRepository, app.youTubeMusicService)
+        val app = application as? BtsMusicApp
+        val ytService = app?.youTubeMusicService ?: YouTubeMusicService()
+        val dlRepo = app?.downloadRepository ?: DownloadRepository(this)
+        val musicRepo = app?.musicRepository ?: MusicRepository(ytService, dlRepo)
+        val audioEngine = app?.audioEngineController ?: AudioEngineController(this)
+        val bleManager = app?.armyBombBleManager ?: ArmyBombBleManager(this)
+        val listenTogetherManager = app?.listenTogetherManager ?: ListenTogetherManager()
+
+        val playerViewModel = MusicPlayerViewModel(audioEngine)
+        val libraryViewModel = LibraryViewModel(musicRepo, dlRepo, ytService)
         val boraLiveViewModel = BoraLiveViewModel()
-        val armyBombViewModel = ArmyBombViewModel(app.armyBombBleManager)
-        val listenTogetherManager = app.listenTogetherManager
+        val armyBombViewModel = ArmyBombViewModel(bleManager)
 
         setContent {
             BtsMusicTheme(darkTheme = true) {

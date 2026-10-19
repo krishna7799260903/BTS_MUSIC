@@ -1,13 +1,10 @@
 package com.army.btsmusic.data.local
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.army.btsmusic.model.Member
 import com.army.btsmusic.model.Track
 
-@Entity(tableName = "downloaded_tracks")
 data class DownloadEntity(
-    @PrimaryKey val id: String,
+    val id: String,
     val title: String,
     val artist: String,
     val memberStageName: String,

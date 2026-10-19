@@ -73,11 +73,11 @@ fun BtsMusicTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as? Activity)?.window ?: return@SideEffect
-            window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+            try {
+                val window = (view.context as? Activity)?.window ?: return@SideEffect
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+                WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+            } catch (e: Throwable) { }
         }
     }
 

@@ -17,7 +17,7 @@ import java.net.URL
 
 class DownloadRepository(private val context: Context) {
 
-    private val trackDao = AppDatabase.getInstance(context).trackDao()
+    private val trackDao = AppDatabase.getInstance(context).trackDao
     private val downloadFolder = File(context.filesDir, "bts_offline_tracks").apply {
         if (!exists()) mkdirs()
     }
