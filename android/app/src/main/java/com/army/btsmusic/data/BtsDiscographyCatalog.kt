@@ -106,6 +106,62 @@ object BtsDiscographyCatalog {
             )
         ),
         Track(
+            id = "bts-on",
+            title = "ON",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "MAP OF THE SOUL : 7",
+            durationSeconds = 246,
+            streamUrl = "https://actions.google.com/sounds/v1/sports/stadium_crowd_cheer.ogg",
+            youtubeVideoId = "mPVDGOVjRQ0",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/2/21/BTS_-_Map_of_the_Soul_7.png",
+            releaseYear = 2020,
+            playCount = 485000000L,
+            lyrics = listOf(
+                LyricLine(0L, "I can't understand what people are sayin'", "I can't understand what people are sayin'", "I can't understand what people are sayin'", true, "BTS!"),
+                LyricLine(5000L, "어느 장단에 맞춰야 될지", "Eoneu jangdane matchwoya doelji", "Which beat should I march to?", false),
+                LyricLine(10000L, "한 발자국 떼면 커지는 그림자", "Han baljaguk ttemyeon keojineun geurimja", "One step forward and the shadow grows", false),
+                LyricLine(15000L, "Bring it, bring the pain on, yeah", "Bring it, bring the pain on, yeah", "Bring it on!", true, "BRING THE PAIN!")
+            )
+        ),
+        Track(
+            id = "bts-idol",
+            title = "IDOL",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "LOVE YOURSELF 結 'Answer'",
+            durationSeconds = 223,
+            streamUrl = "https://actions.google.com/sounds/v1/household/applause_medium.ogg",
+            youtubeVideoId = "pBuZEGYXA6E",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/9/9e/BTS_-_Love_Yourself_Answer_album_cover.jpg",
+            releaseYear = 2018,
+            playCount = 492000000L,
+            lyrics = listOf(
+                LyricLine(0L, "You can call me artist, you can call me idol", "You can call me artist, you can call me idol", "You can call me artist, you can call me idol", true, "IDOL!"),
+                LyricLine(5000L, "아님 어떤 다른 뭐라 해도", "Anim eotteon dareun mwora haedo", "Or whatever else you want to call me", false),
+                LyricLine(10000L, "I don't care, I'm proud of it", "I don't care, I'm proud of it", "I'm proud of it", true, "OH OH U OH!"),
+                LyricLine(15000L, "얼쑤 좋다! 지화자 좋다!", "Eolssu jota! Jihwaja jota!", "Let's go! Feel the groove!", true, "JIKIMI!")
+            )
+        ),
+        Track(
+            id = "bts-run-bts",
+            title = "Run BTS (달려라 방탄)",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "Proof",
+            durationSeconds = 205,
+            streamUrl = "https://actions.google.com/sounds/v1/ambiences/car_interior_driving.ogg",
+            youtubeVideoId = "bO28Y6V9t64",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/a/a2/BTS_-_Proof_album_cover.png",
+            releaseYear = 2022,
+            playCount = 345000000L,
+            lyrics = listOf(
+                LyricLine(0L, "논현동 열일곱, 어디 갈 지 몰라", "Nonhyeon-dong yeorilgop, eodi gal ji molla", "Nonhyeon-dong, seventeen, not knowing where to go", true, "RUN BTS!"),
+                LyricLine(5000L, "맨 땅에 헤딩하듯 뛰었지", "Maen ttange hedinghadeut ttwieotji", "We ran like throwing ourselves onto the bare ground", false),
+                LyricLine(10000L, "달려라 방탄, 달리기 시작해", "Dallyeora bangtan, dalligi sijakhae", "Run BTS, start sprinting!", true, "RUN BULLETPROOF RUN!")
+            )
+        ),
+        Track(
             id = "jk-standing-next-to-you",
             title = "Standing Next to You",
             artist = "Jung Kook",

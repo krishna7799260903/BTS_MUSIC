@@ -1,6 +1,7 @@
 package com.army.btsmusic.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,9 +40,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.army.btsmusic.data.BtsDiscographyCatalog
 import com.army.btsmusic.model.Member
 import com.army.btsmusic.model.Track
 import com.army.btsmusic.theme.BorahaeLilac
@@ -50,7 +54,6 @@ import com.army.btsmusic.theme.BorahaePurpleDeep
 import com.army.btsmusic.theme.DarkBackground
 import com.army.btsmusic.theme.DarkCard
 import com.army.btsmusic.theme.DarkOnSurfaceVariant
-import com.army.btsmusic.ui.components.ArmyBombWidget
 import com.army.btsmusic.ui.components.TrackListItem
 import com.army.btsmusic.viewmodel.ArmyBombViewModel
 import com.army.btsmusic.viewmodel.LibraryViewModel
@@ -69,12 +72,6 @@ fun HomeScreen(
     val selectedMember by libraryViewModel.selectedMember.collectAsState()
     val tracks by libraryViewModel.filteredTracks.collectAsState()
     val downloadProgressMap by libraryViewModel.downloadProgressMap.collectAsState()
-
-    // Lightstick State
-    val connectionState by armyBombViewModel.connectionState.collectAsState()
-    val deviceName by armyBombViewModel.connectedDeviceName.collectAsState()
-    val lightColorHex by armyBombViewModel.currentLightColor.collectAsState()
-    val glowIntensity by armyBombViewModel.lightGlowIntensity.collectAsState()
 
     LazyColumn(
         modifier = modifier
@@ -128,115 +125,121 @@ fun HomeScreen(
             }
         }
 
-        // Hero Featured Card (Permission to Dance / HYYH Era)
+        // Top Albums of BTS (2x2 Form in place of previous boxed section)
         item {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(
-                        Brush.linearGradient(
-                            listOf(BorahaePurpleDeep, Color(0xFF1E1035), Color(0xFF0D0714))
-                        )
-                    )
-                    .clickable {
-                        tracks.firstOrNull()?.let { playerViewModel.playTrack(it) }
-                    }
+                    .padding(horizontal = 16.dp, vertical = 6.dp)
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(20.dp),
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "TOP BTS ALBUMS",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            letterSpacing = 0.8.sp
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
+                                .clip(RoundedCornerShape(6.dp))
                                 .background(BorahaeNeon.copy(alpha = 0.2f))
-                                .padding(horizontal = 8.dp, vertical = 3.dp)
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
                             Text(
-                                text = "FEATURED ERA • PROOF ANTHOLOGY",
-                                fontSize = 10.sp,
+                                text = "2×2 BESTSELLERS",
+                                fontSize = 9.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = BorahaeNeon
                             )
                         }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Text(
-                            text = "Spring Day & HYYH Classics",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-
-                        Text(
-                            text = "10+ Years of Memories & Timeless Hits",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = DarkOnSurfaceVariant
-                        )
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(CircleShape)
-                                    .background(BorahaePurple),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.PlayArrow,
-                                    contentDescription = "Play",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "Stream Now",
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.White
-                            )
-                        }
                     }
-
-                    // Album Art
-                    AsyncImage(
-                        model = "https://upload.wikimedia.org/wikipedia/en/2/21/BTS_-_You_Never_Walk_Alone.jpg",
-                        contentDescription = "Featured Cover",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(110.dp)
-                            .shadow(12.dp, RoundedCornerShape(16.dp))
-                            .clip(RoundedCornerShape(16.dp))
+                    Text(
+                        text = "Tap to Stream",
+                        fontSize = 11.sp,
+                        color = BorahaeLilac
                     )
                 }
-            }
-        }
 
-        // ARMY Bomb BLE & Simulator Widget
-        item {
-            Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
-                ArmyBombWidget(
-                    connectionState = connectionState,
-                    deviceName = deviceName,
-                    currentColorHex = lightColorHex,
-                    glowIntensity = glowIntensity,
-                    colorPresets = armyBombViewModel.colorPresets,
-                    onConnectBle = { armyBombViewModel.startScan() },
-                    onStartSimulator = { armyBombViewModel.startSimulator() },
-                    onDisconnect = { armyBombViewModel.disconnect() },
-                    onSelectColor = { armyBombViewModel.selectColor(it) }
-                )
+                // Row 1 of 2x2 Grid
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    TopAlbumCard(
+                        album = topBtsAlbums[0],
+                        isPlaying = currentTrack?.album?.equals(topBtsAlbums[0].albumMatch, ignoreCase = true) == true && isPlaying,
+                        onClick = {
+                            libraryViewModel.selectMember(Member.OT7)
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find {
+                                it.album.equals(topBtsAlbums[0].albumMatch, ignoreCase = true)
+                            } ?: BtsDiscographyCatalog.sampleTracks.find {
+                                it.id == topBtsAlbums[0].leadTrackId
+                            }
+                            targetTrack?.let { playerViewModel.playTrack(it) }
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                    TopAlbumCard(
+                        album = topBtsAlbums[1],
+                        isPlaying = currentTrack?.album?.equals(topBtsAlbums[1].albumMatch, ignoreCase = true) == true && isPlaying,
+                        onClick = {
+                            libraryViewModel.selectMember(Member.OT7)
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find {
+                                it.album.equals(topBtsAlbums[1].albumMatch, ignoreCase = true)
+                            } ?: BtsDiscographyCatalog.sampleTracks.find {
+                                it.id == topBtsAlbums[1].leadTrackId
+                            }
+                            targetTrack?.let { playerViewModel.playTrack(it) }
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Row 2 of 2x2 Grid
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    TopAlbumCard(
+                        album = topBtsAlbums[2],
+                        isPlaying = currentTrack?.album?.equals(topBtsAlbums[2].albumMatch, ignoreCase = true) == true && isPlaying,
+                        onClick = {
+                            libraryViewModel.selectMember(Member.OT7)
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find {
+                                it.album.equals(topBtsAlbums[2].albumMatch, ignoreCase = true)
+                            } ?: BtsDiscographyCatalog.sampleTracks.find {
+                                it.id == topBtsAlbums[2].leadTrackId
+                            }
+                            targetTrack?.let { playerViewModel.playTrack(it) }
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                    TopAlbumCard(
+                        album = topBtsAlbums[3],
+                        isPlaying = currentTrack?.album?.equals(topBtsAlbums[3].albumMatch, ignoreCase = true) == true && isPlaying,
+                        onClick = {
+                            libraryViewModel.selectMember(Member.OT7)
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find {
+                                it.album.equals(topBtsAlbums[3].albumMatch, ignoreCase = true)
+                            } ?: BtsDiscographyCatalog.sampleTracks.find {
+                                it.id == topBtsAlbums[3].leadTrackId
+                            }
+                            targetTrack?.let { playerViewModel.playTrack(it) }
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
 
@@ -319,3 +322,134 @@ fun HomeScreen(
         }
     }
 }
+
+data class TopBtsAlbum(
+    val id: String,
+    val title: String,
+    val subtitle: String,
+    val albumMatch: String,
+    val leadTrackId: String,
+    val coverUrl: String
+)
+
+private val topBtsAlbums = listOf(
+    TopBtsAlbum(
+        id = "mots7",
+        title = "Map of the Soul: 7",
+        subtitle = "2020 • 4.8M+ Sold",
+        albumMatch = "MAP OF THE SOUL : 7",
+        leadTrackId = "bts-on",
+        coverUrl = "https://upload.wikimedia.org/wikipedia/en/2/21/BTS_-_Map_of_the_Soul_7.png"
+    ),
+    TopBtsAlbum(
+        id = "ly_answer",
+        title = "Love Yourself 結 'Answer'",
+        subtitle = "2018 • Billboard 200 #1",
+        albumMatch = "LOVE YOURSELF 結 'Answer'",
+        leadTrackId = "bts-idol",
+        coverUrl = "https://upload.wikimedia.org/wikipedia/en/9/9e/BTS_-_Love_Yourself_Answer_album_cover.jpg"
+    ),
+    TopBtsAlbum(
+        id = "wings",
+        title = "Wings",
+        subtitle = "2016 • Landmark Era",
+        albumMatch = "WINGS",
+        leadTrackId = "bts-blood-sweat-tears",
+        coverUrl = "https://upload.wikimedia.org/wikipedia/en/9/90/BTS_Wings_cover.jpg"
+    ),
+    TopBtsAlbum(
+        id = "proof",
+        title = "Proof",
+        subtitle = "2022 • Anthology",
+        albumMatch = "Proof",
+        leadTrackId = "bts-run-bts",
+        coverUrl = "https://upload.wikimedia.org/wikipedia/en/a/a2/BTS_-_Proof_album_cover.png"
+    )
+)
+
+@Composable
+private fun TopAlbumCard(
+    album: TopBtsAlbum,
+    isPlaying: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(18.dp))
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        if (isPlaying) Color(0xFF381B5E) else Color(0xFF1E1130),
+                        Color(0xFF0F0719)
+                    )
+                )
+            )
+            .border(
+                width = if (isPlaying) 1.5.dp else 1.dp,
+                color = if (isPlaying) BorahaeNeon else BorahaePurple.copy(alpha = 0.35f),
+                shape = RoundedCornerShape(18.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(10.dp)
+    ) {
+        Column {
+            // Album Artwork with Floating Play Badge
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFF281440))
+            ) {
+                AsyncImage(
+                    model = album.coverUrl,
+                    contentDescription = album.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                // Play / Playing badge
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(6.dp)
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .background(if (isPlaying) BorahaeNeon else BorahaePurple),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Default.ElectricBolt else Icons.Default.PlayArrow,
+                        contentDescription = "Play",
+                        tint = if (isPlaying) Color.Black else Color.White,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Title
+            Text(
+                text = album.title,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            // Year & Sales stats
+            Text(
+                text = album.subtitle,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
+                color = if (isPlaying) BorahaeNeon else DarkOnSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
