@@ -58,19 +58,48 @@ class AudioEngineController(private val context: Context) {
     private val _audioEffectsState = MutableStateFlow(AudioEffectsState())
     val audioEffectsState: StateFlow<AudioEffectsState> = _audioEffectsState.asStateFlow()
 
+    val youTubeAudioEngine = YouTubeAudioEngine(context)
+    private var isYouTubeActive = false
+
     init {
+        // Collect YouTube Audio Engine states
+        scope.launch {
+            youTubeAudioEngine.isPlaying.collect { playing ->
+                if (isYouTubeActive) {
+                    _isPlaying.value = playing
+                }
+            }
+        }
+        scope.launch {
+            youTubeAudioEngine.currentPositionMs.collect { pos ->
+                if (isYouTubeActive) {
+                    _currentPositionMs.value = pos
+                }
+            }
+        }
+        scope.launch {
+            youTubeAudioEngine.durationMs.collect { dur ->
+                if (isYouTubeActive && dur > 0) {
+                    _durationMs.value = dur
+                }
+            }
+        }
+
+        // Collect ExoPlayer states
         exoPlayer.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(playing: Boolean) {
-                _isPlaying.value = playing
-                if (playing) {
-                    startProgressPolling()
-                } else {
-                    stopProgressPolling()
+                if (!isYouTubeActive) {
+                    _isPlaying.value = playing
+                    if (playing) {
+                        startProgressPolling()
+                    } else {
+                        stopProgressPolling()
+                    }
                 }
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
+                if (!isYouTubeActive && playbackState == Player.STATE_READY) {
                     _durationMs.value = exoPlayer.duration.coerceAtLeast(0L)
                     attachAudioEffects()
                 }
@@ -102,30 +131,54 @@ class AudioEngineController(private val context: Context) {
 
     fun playTrack(track: Track) {
         _currentTrack.value = track
-        val sourceUri = if (track.isDownloaded && track.localFilePath != null) {
-            track.localFilePath
-        } else {
-            track.streamUrl
-        }
+        _currentPositionMs.value = 0L
+        _durationMs.value = (track.durationSeconds * 1000L)
 
-        val mediaItem = MediaItem.fromUri(sourceUri)
-        exoPlayer.setMediaItem(mediaItem)
-        exoPlayer.prepare()
-        exoPlayer.play()
-        applyPlaybackParameters()
+        val hasLocalFile = track.isDownloaded && track.localFilePath != null && java.io.File(track.localFilePath).exists()
+        if (hasLocalFile) {
+            isYouTubeActive = false
+            youTubeAudioEngine.pause()
+            val mediaItem = MediaItem.fromUri(track.localFilePath!!)
+            exoPlayer.setMediaItem(mediaItem)
+            exoPlayer.prepare()
+            exoPlayer.play()
+            applyPlaybackParameters()
+        } else {
+            isYouTubeActive = true
+            exoPlayer.stop()
+            val videoId = track.youtubeVideoId.ifEmpty {
+                track.streamUrl.substringAfter("watch?v=", "")
+            }
+            if (videoId.isNotBlank()) {
+                youTubeAudioEngine.playVideo(videoId)
+                youTubeAudioEngine.setPlaybackRate(_audioEffectsState.value.tempo)
+            }
+        }
     }
 
     fun togglePlayPause() {
-        if (exoPlayer.isPlaying) {
-            exoPlayer.pause()
+        if (isYouTubeActive) {
+            if (_isPlaying.value) {
+                youTubeAudioEngine.pause()
+            } else {
+                youTubeAudioEngine.resume()
+            }
         } else {
-            exoPlayer.play()
+            if (exoPlayer.isPlaying) {
+                exoPlayer.pause()
+            } else {
+                exoPlayer.play()
+            }
         }
     }
 
     fun seekTo(positionMs: Long) {
-        exoPlayer.seekTo(positionMs)
         _currentPositionMs.value = positionMs
+        if (isYouTubeActive) {
+            youTubeAudioEngine.seekTo(positionMs)
+        } else {
+            exoPlayer.seekTo(positionMs)
+        }
     }
 
     fun toggleShuffle() {
@@ -148,6 +201,9 @@ class AudioEngineController(private val context: Context) {
         val current = _audioEffectsState.value
         val clampedSpeed = speed.coerceIn(0.5f, 2.0f)
         _audioEffectsState.value = current.copy(tempo = clampedSpeed)
+        if (isYouTubeActive) {
+            youTubeAudioEngine.setPlaybackRate(clampedSpeed)
+        }
         applyPlaybackParameters()
     }
 
@@ -240,6 +296,7 @@ class AudioEngineController(private val context: Context) {
             bassBoost?.release()
             virtualizer?.release()
             exoPlayer.release()
+            youTubeAudioEngine.stop()
         } catch (e: Exception) { }
     }
 }

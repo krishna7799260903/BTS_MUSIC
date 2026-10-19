@@ -52,7 +52,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -371,6 +373,16 @@ fun BtsNavigation(
                     onBack = { showLyricsScreen = false }
                 )
             }
+
+            // Real-Time YouTube Audio Player Engine (runs securely in background)
+            AndroidView(
+                factory = { ctx ->
+                    playerViewModel.audioEngineController.youTubeAudioEngine.getOrCreateView(ctx)
+                },
+                modifier = Modifier
+                    .size(1.dp)
+                    .alpha(0.01f)
+            )
         }
     }
 
