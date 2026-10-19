@@ -13,5 +13,15 @@ desktop.ini
 *.swp
 *.swo
 
+# Gradle & Android Build Outputs
+.gradle/
+build/
+android/.gradle/
+android/app/build/
+android/build/
+*.apk
+*.aab
+
 # Temporary / Log files
 *.log
+
