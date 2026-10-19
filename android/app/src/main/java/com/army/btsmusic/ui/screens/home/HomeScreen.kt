@@ -1,5 +1,6 @@
 package com.army.btsmusic.ui.screens.home
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,6 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -374,82 +383,173 @@ private fun TopAlbumCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Outer Frame Box
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(18.dp))
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        if (isPlaying) Color(0xFF381B5E) else Color(0xFF1E1130),
-                        Color(0xFF0F0719)
-                    )
-                )
-            )
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color(0xFF090312))
             .border(
                 width = if (isPlaying) 1.5.dp else 1.dp,
-                color = if (isPlaying) BorahaeNeon else BorahaePurple.copy(alpha = 0.35f),
-                shape = RoundedCornerShape(18.dp)
+                color = if (isPlaying) BorahaeNeon else Color(0xFF25113C),
+                shape = RoundedCornerShape(10.dp)
             )
             .clickable(onClick = onClick)
-            .padding(10.dp)
+            .padding(6.dp)
     ) {
-        Column {
-            // Album Artwork with Floating Play Badge
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFF281440))
-            ) {
-                AsyncImage(
-                    model = album.coverUrl,
-                    contentDescription = album.title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+        // Inner Container Box
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(172.dp)
+                .clip(RoundedCornerShape(6.dp))
+                .background(Color(0xFF0F061C))
+                .border(
+                    width = 1.dp,
+                    color = Color(0xFF2B1445),
+                    shape = RoundedCornerShape(6.dp)
                 )
-
-                // Play / Playing badge
+                .padding(10.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Center Emblem Area
                 Box(
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(6.dp)
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(if (isPlaying) BorahaeNeon else BorahaePurple),
+                        .fillMaxWidth()
+                        .weight(1f),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = if (isPlaying) Icons.Default.ElectricBolt else Icons.Default.PlayArrow,
-                        contentDescription = "Play",
-                        tint = if (isPlaying) Color.Black else Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
+                    when (album.id) {
+                        "mots7" -> {
+                            Text(
+                                text = "7",
+                                fontSize = 66.sp,
+                                fontWeight = FontWeight.Black,
+                                color = Color(0xFF331757),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        "ly_answer" -> {
+                            Canvas(modifier = Modifier.size(52.dp)) {
+                                val w = size.width
+                                val h = size.height
+                                val path = Path().apply {
+                                    moveTo(w * 0.5f, h * 0.85f)
+                                    cubicTo(w * 0.12f, h * 0.55f, w * 0.02f, h * 0.22f, w * 0.26f, h * 0.10f)
+                                    cubicTo(w * 0.40f, h * 0.02f, w * 0.5f, h * 0.20f, w * 0.5f, h * 0.26f)
+                                    cubicTo(w * 0.5f, h * 0.20f, w * 0.60f, h * 0.02f, w * 0.74f, h * 0.10f)
+                                    cubicTo(w * 0.98f, h * 0.22f, w * 0.88f, h * 0.55f, w * 0.5f, h * 0.85f)
+                                    close()
+                                }
+                                drawPath(
+                                    path = path,
+                                    color = Color(0xFF331757),
+                                    style = Stroke(
+                                        width = 3.5.dp.toPx(),
+                                        cap = StrokeCap.Round,
+                                        join = StrokeJoin.Round
+                                    )
+                                )
+                            }
+                        }
+                        "wings" -> {
+                            Canvas(modifier = Modifier.size(46.dp)) {
+                                val r = 8.5.dp.toPx()
+                                val strokeW = 2.dp.toPx()
+                                val color = Color(0xFF331757)
+                                val left = size.width * 0.30f
+                                val right = size.width * 0.70f
+                                val top = size.height * 0.30f
+                                val bottom = size.height * 0.70f
+
+                                // Top-Left (outlined)
+                                drawCircle(color = color, radius = r, center = Offset(left, top), style = Stroke(strokeW))
+                                // Top-Right (filled)
+                                drawCircle(color = color, radius = r, center = Offset(right, top))
+                                // Bottom-Left (filled)
+                                drawCircle(color = color, radius = r, center = Offset(left, bottom))
+                                // Bottom-Right (outlined)
+                                drawCircle(color = color, radius = r, center = Offset(right, bottom), style = Stroke(strokeW))
+                            }
+                        }
+                        "proof" -> {
+                            Canvas(modifier = Modifier.size(52.dp)) {
+                                val strokeW = 2.dp.toPx()
+                                val color = Color(0xFF331757)
+
+                                val outerW = 30.dp.toPx()
+                                val outerH = 44.dp.toPx()
+                                drawRoundRect(
+                                    color = color,
+                                    topLeft = Offset((size.width - outerW) / 2f, (size.height - outerH) / 2f),
+                                    size = Size(outerW, outerH),
+                                    cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx()),
+                                    style = Stroke(strokeW)
+                                )
+
+                                val innerW = 16.dp.toPx()
+                                val innerH = 28.dp.toPx()
+                                drawRoundRect(
+                                    color = color,
+                                    topLeft = Offset((size.width - innerW) / 2f, (size.height - innerH) / 2f),
+                                    size = Size(innerW, innerH),
+                                    cornerRadius = CornerRadius(3.dp.toPx(), 3.dp.toPx()),
+                                    style = Stroke(strokeW)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // Bottom Content Row (Title, Subtitle & Circular Purple Play Button)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = album.title,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = album.subtitle,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color(0xFFB0A2C8),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    // Solid Purple Play Button
+                    Box(
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF8B3CFC)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "Play",
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Title
-            Text(
-                text = album.title,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-
-            // Year & Sales stats
-            Text(
-                text = album.subtitle,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Medium,
-                color = if (isPlaying) BorahaeNeon else DarkOnSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
         }
     }
 }
+
 

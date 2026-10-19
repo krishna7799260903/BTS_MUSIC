@@ -129,8 +129,7 @@ fun BtsNavigation(
     val navItems = listOf(
         BtsScreen.Home,
         BtsScreen.Library,
-        BtsScreen.Together,
-        BtsScreen.Equalizer
+        BtsScreen.Together
     )
 
     ModalNavigationDrawer(
