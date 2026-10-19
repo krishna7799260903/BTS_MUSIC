@@ -34,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ElectricBolt
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -160,15 +161,25 @@ fun HomeScreen(
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(BorahaeNeon.copy(alpha = 0.2f))
-                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                                .background(Color(0xFF331757))
+                                .padding(horizontal = 7.dp, vertical = 2.dp)
                         ) {
-                            Text(
-                                text = "2×2 BESTSELLERS",
-                                fontSize = 9.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = BorahaeNeon
-                            )
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "2×2",
+                                    fontSize = 8.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFFD8B4FE),
+                                    lineHeight = 9.sp
+                                )
+                                Text(
+                                    text = "BESTSELLERS",
+                                    fontSize = 7.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFFD8B4FE),
+                                    lineHeight = 8.sp
+                                )
+                            }
                         }
                     }
                     Text(
@@ -293,41 +304,209 @@ fun HomeScreen(
             }
         }
 
-        // Tracklist Header
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "${selectedMember.stageName} Tracks (${tracks.size})",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+        if (selectedMember == Member.OT7) {
+            // ==========================================
+            // QUICK PICKS SECTION (From Design Mockup)
+            // ==========================================
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                ) {
+                    // Quick Picks Header
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "QUICK PICKS",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    letterSpacing = 0.5.sp
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(6.dp))
+                                        .background(Color(0xFF331757))
+                                        .padding(horizontal = 7.dp, vertical = 2.dp)
+                                ) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = "ARMY",
+                                            fontSize = 8.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFD8B4FE),
+                                            lineHeight = 9.sp
+                                        )
+                                        Text(
+                                            text = "PICKS",
+                                            fontSize = 7.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFD8B4FE),
+                                            lineHeight = 8.sp
+                                        )
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "Curated for you • Start a radio",
+                                fontSize = 11.sp,
+                                color = Color(0xFF9CA3AF)
+                            )
+                        }
 
-                Text(
-                    text = "YouTube Music Synced",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = BorahaeLilac
+                        // Play All Button
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable {
+                                    val firstTrack = BtsDiscographyCatalog.sampleTracks.find { it.id == quickPicks.first().trackId }
+                                    firstTrack?.let { playerViewModel.playTrack(it) }
+                                }
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "Play All",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF8B3CFC)
+                            )
+                            Spacer(modifier = Modifier.width(3.dp))
+                            Text(
+                                text = "▶",
+                                fontSize = 10.sp,
+                                color = Color(0xFF8B3CFC)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // 4 Quick Pick Cards
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        quickPicks.forEach { item ->
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find { it.id == item.trackId }
+                            val isItemPlaying = currentTrack?.id == item.trackId && isPlaying
+                            QuickPickCard(
+                                item = item,
+                                isPlaying = isItemPlaying,
+                                onClick = {
+                                    targetTrack?.let { playerViewModel.playTrack(it) }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // ==========================================
+            // RECENTLY LISTENED SECTION (From Design Mockup)
+            // ==========================================
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp)
+                ) {
+                    // Recently Listened Header
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Schedule,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "RECENTLY LISTENED",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                letterSpacing = 0.5.sp
+                            )
+                        }
+
+                        Text(
+                            text = "See all",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(0xFF8B3CFC),
+                            modifier = Modifier.clickable { }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // 3 Recently Listened Cards in a Row
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        recentlyListenedItems.forEach { item ->
+                            val targetTrack = BtsDiscographyCatalog.sampleTracks.find { it.id == item.trackId }
+                            val isItemPlaying = currentTrack?.id == item.trackId && isPlaying
+                            RecentlyListenedCard(
+                                item = item,
+                                isPlaying = isItemPlaying,
+                                onClick = {
+                                    targetTrack?.let { playerViewModel.playTrack(it) }
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            // Solo Member Tracks Header
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "${selectedMember.stageName} Tracks (${tracks.size})",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    Text(
+                        text = "YouTube Music Synced",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = BorahaeLilac
+                    )
+                }
+            }
+
+            // Solo Member Tracks List
+            items(tracks, key = { it.id }) { track ->
+                TrackListItem(
+                    track = track,
+                    isCurrentTrack = currentTrack?.id == track.id,
+                    isPlaying = isPlaying,
+                    downloadProgress = downloadProgressMap[track.id],
+                    onTrackClick = { playerViewModel.playTrack(track) },
+                    onDownloadClick = { libraryViewModel.toggleDownload(track) },
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                 )
             }
-        }
-
-        // Tracks List
-        items(tracks, key = { it.id }) { track ->
-            TrackListItem(
-                track = track,
-                isCurrentTrack = currentTrack?.id == track.id,
-                isPlaying = isPlaying,
-                downloadProgress = downloadProgressMap[track.id],
-                onTrackClick = { playerViewModel.playTrack(track) },
-                onDownloadClick = { libraryViewModel.toggleDownload(track) },
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
-            )
         }
     }
 }
@@ -551,5 +730,242 @@ private fun TopAlbumCard(
         }
     }
 }
+
+data class QuickPickItem(
+    val id: String,
+    val badge: String,
+    val title: String,
+    val subtitle: String,
+    val trackId: String
+)
+
+private val quickPicks = listOf(
+    QuickPickItem(
+        id = "bst",
+        badge = "BST",
+        title = "Blood Sweat & Tears",
+        subtitle = "BTS • 3:37 • 520M+ streams",
+        trackId = "bts-blood-sweat-tears"
+    ),
+    QuickPickItem(
+        id = "spring_day",
+        badge = "봄날",
+        title = "Spring Day (봄날)",
+        subtitle = "BTS • 4:34 • Queen of Melon",
+        trackId = "bts-spring-day"
+    ),
+    QuickPickItem(
+        id = "fake_love",
+        badge = "FL",
+        title = "Fake Love",
+        subtitle = "BTS • 4:02 • Love Yourself",
+        trackId = "bts-fake-love"
+    ),
+    QuickPickItem(
+        id = "dynamite",
+        badge = "DYN",
+        title = "Dynamite",
+        subtitle = "BTS • 3:19 • Grammy Nominee",
+        trackId = "bts-dynamite"
+    )
+)
+
+data class RecentlyListenedItem(
+    val id: String,
+    val emblemText: String,
+    val timeAgo: String,
+    val title: String,
+    val subtitle: String,
+    val trackId: String
+)
+
+private val recentlyListenedItems = listOf(
+    RecentlyListenedItem(
+        id = "butter",
+        emblemText = "BUTTER",
+        timeAgo = "12m ago",
+        title = "Butter",
+        subtitle = "Single • BTS",
+        trackId = "bts-butter"
+    ),
+    RecentlyListenedItem(
+        id = "life_goes_on",
+        emblemText = "BE",
+        timeAgo = "2h ago",
+        title = "Life Goes On",
+        subtitle = "BE • BTS",
+        trackId = "bts-life-goes-on"
+    ),
+    RecentlyListenedItem(
+        id = "mic_drop",
+        emblemText = "MIC DROP",
+        timeAgo = "5h ago",
+        title = "MIC Drop",
+        subtitle = "Steve Aoki Remix",
+        trackId = "bts-mic-drop"
+    )
+)
+
+@Composable
+private fun QuickPickCard(
+    item: QuickPickItem,
+    isPlaying: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF0F061C))
+            .border(
+                width = 1.dp,
+                color = if (isPlaying) BorahaeNeon else Color(0xFF26123E),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 9.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
+                // Square Icon Badge Box
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Color(0xFF241142)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = item.badge,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFC084FC)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Column {
+                    Text(
+                        text = item.title,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = item.subtitle,
+                        fontSize = 11.sp,
+                        color = Color(0xFF9CA3AF),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Play Button
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(if (isPlaying) Color(0xFF8B3CFC) else Color(0xFF241142)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Play",
+                    tint = if (isPlaying) Color.White else Color(0xFFC084FC),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RecentlyListenedCard(
+    item: RecentlyListenedItem,
+    isPlaying: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+    ) {
+        // Upper Artwork Box
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(106.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFF130726))
+                .border(
+                    width = 1.dp,
+                    color = if (isPlaying) BorahaeNeon else Color(0xFF2E154E),
+                    shape = RoundedCornerShape(8.dp)
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = item.emblemText,
+                fontSize = if (item.emblemText.length > 5) 13.sp else 16.sp,
+                fontWeight = FontWeight.Black,
+                color = Color(0xFFD8B4FE),
+                textAlign = TextAlign.Center
+            )
+
+            // Time Ago Badge in bottom right
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(6.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(Color(0xFF090312).copy(alpha = 0.85f))
+                    .padding(horizontal = 5.dp, vertical = 2.dp)
+            ) {
+                Text(
+                    text = item.timeAgo,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFFD8B4FE)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = item.title,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Text(
+            text = item.subtitle,
+            fontSize = 10.sp,
+            color = Color(0xFF9CA3AF),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
 
 

@@ -162,6 +162,63 @@ object BtsDiscographyCatalog {
             )
         ),
         Track(
+            id = "bts-fake-love",
+            title = "Fake Love",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "Love Yourself 轉 'Tear'",
+            durationSeconds = 242,
+            streamUrl = "https://actions.google.com/sounds/v1/household/fireplace.ogg",
+            youtubeVideoId = "7C2z4GqqS5E",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/9/9e/BTS_-_Love_Yourself_Answer_album_cover.jpg",
+            releaseYear = 2018,
+            playCount = 680000000L,
+            lyrics = listOf(
+                LyricLine(0L, "널 위해서라면 난 슬퍼도 기쁜 척 할 수가 있었어", "Neol wihaeseoramyeon nan seulpeodo gippeun cheok hal suga isseosseo", "For you, even when I'm sad, I can pretend to be happy", true, "BTS!"),
+                LyricLine(6000L, "널 위해서라면 난 아파도 강한 척 할 수가 있었어", "Neol wihaeseoramyeon nan apado ganghan cheok hal suga isseosseo", "For you, even when it hurts, I could pretend to be strong", false),
+                LyricLine(12000L, "Love you so bad, love you so bad", "Love you so bad, love you so bad", "Love you so bad", true, "LOVE YOU SO BAD!"),
+                LyricLine(18000L, "I'm so sick of this fake love", "I'm so sick of this fake love", "I'm so sick of this fake love", true, "FAKE LOVE!")
+            )
+        ),
+        Track(
+            id = "bts-life-goes-on",
+            title = "Life Goes On",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "BE",
+            durationSeconds = 207,
+            streamUrl = "https://actions.google.com/sounds/v1/water/lapping_waves.ogg",
+            youtubeVideoId = "-5q5mZbe3V8",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/0/05/BTS_-_Dynamite_%28single_cover%29.png",
+            releaseYear = 2020,
+            playCount = 420000000L,
+            lyrics = listOf(
+                LyricLine(0L, "어느 날 세상이 멈췄어", "Eoneu nal sesangi meomchwosseo", "One day, the world stopped", true, "BTS!"),
+                LyricLine(5000L, "아무런 예고도 하나 없이", "Amureon yegodo hana eopsi", "Without any forewarning", false),
+                LyricLine(11000L, "Like an echo in the forest", "Like an echo in the forest", "Like an echo in the forest", false),
+                LyricLine(16000L, "Yeah life goes on, like an arrow in the blue sky", "Yeah life goes on, like an arrow in the blue sky", "Yeah life goes on", true, "LIFE GOES ON!")
+            )
+        ),
+        Track(
+            id = "bts-mic-drop",
+            title = "MIC Drop",
+            artist = "BTS",
+            member = Member.OT7,
+            album = "Love Yourself 承 'Her'",
+            durationSeconds = 238,
+            streamUrl = "https://actions.google.com/sounds/v1/sports/stadium_crowd_cheer.ogg",
+            youtubeVideoId = "kTlv5_Bs8aw",
+            coverUrl = "https://upload.wikimedia.org/wikipedia/en/9/9e/BTS_-_Love_Yourself_Answer_album_cover.jpg",
+            releaseYear = 2017,
+            playCount = 590000000L,
+            lyrics = listOf(
+                LyricLine(0L, "Yeah 누가 내 수저 더럽대", "Yeah nuga nae sujeo deoreopdae", "Yeah, who says my spoon is dirty?", true, "MIC DROP!"),
+                LyricLine(5000L, "I don't care 마이크 잡음 금수저 여럿 패", "I don't care maikeu jabeum geumsujeo yeoreot pae", "I don't care, when I grab the mic I beat those golden spoons", false),
+                LyricLine(10000L, "Did you see my bag? Did you see my bag?", "Did you see my bag? Did you see my bag?", "Did you see my bag?", true, "MY BAG!"),
+                LyricLine(15000L, "트로피들로 백이 넘쳐흘러", "Teuropideullo baegi neomchyeoheulleo", "It's hella trophies and it's hella thick", true, "HELLA THICK!")
+            )
+        ),
+        Track(
             id = "jk-standing-next-to-you",
             title = "Standing Next to You",
             artist = "Jung Kook",
