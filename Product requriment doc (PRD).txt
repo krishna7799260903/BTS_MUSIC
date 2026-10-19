@@ -1,0 +1,97 @@
+web application/stitch/projects/3854552239706552553/screens/860709e2f1c744208caab08e12b75f14
+# Product Requirements Document (PRD) & Design Brief
+## Project: BTS Music — BTS & ARMY Audio-Visual Experience
+
+---
+
+### 1. Executive Summary & Vision
+**BTS Music** is a bespoke, high-fidelity audio and video streaming application crafted exclusively for the global BTS fandom (ARMY). By uniting the refined, discovery-driven user experience of platforms like Spotify with specialized K-pop community and fan-engagement mechanics (e.g., Weverse, live concert streaming, ARMY Bomb Bluetooth synchronization, and synchronized lyrics/fanchants), BTS Music delivers an intimate, culturally authentic fan sanctuary.
+
+The product adheres to a modern, dual-mode visual language ("Borahae Purple" palette) that adapts effortlessly between immersive deep obsidian dark mode and a crisp, airy lilac-tinted light mode.
+
+---
+
+### 2. Objectives & Key Results (OKRs)
+
+- **User Delight & Retention:** Provide an all-in-one ecosystem for BTS music, official solo releases, concert streams, and community curation without requiring third-party app switching.
+- **Real-Time Fandom Interaction:** Drive synchronized live engagement (floating hearts, chat, and lightstick haptic/visual sync) during live concert streams and album premieres.
+- **Design Excellence:** Deliver a human-made, tactile mobile UI that feels native, fluid, accessible, and compliant with modern streaming standards.
+
+---
+
+### 3. User Personas
+
+| Persona | Motivation | Key Pain Points in Generic Players | Primary Features Used |
+| :--- | :--- | :--- | :--- |
+| **Active ARMY Streamer (Aria, 22)** | Stream BTS tracks daily to support global charts; follow solo releases and discography. | Generic apps lack fanchant guides, member solo filtering, and unified streaming goals. | Discography Hub, Mini-Player, Daily Charts, Smart Queuing. |
+| **Concert & Live Fan (Min-jun, 27)** | Watch live stadium concerts and Bangtan Bombs in ultra-high fidelity with community vibes. | Chat spam, latency, missing multi-angle member fancams, disconnected lightsticks. | Live & Video Stream, Multi-angle Cams, ARMY Bomb Sync, Dolby Atmos. |
+| **Casual Listener / New Fan (Elena, 19)** | Discover BTS eras, understand Korean lyrics, and find mood-based playlists. | Difficult to decipher 10+ years of lore, eras, and lyrics across multiple languages. | Now Playing / Synchronized Lyrics, "Made For You" Playlists, Era Discography. |
+
+---
+
+### 4. Information Architecture & Navigation
+
+The app is built around a persistent mobile shell structure:
+- **Top App Bar:** Brand Logo (`BTS Music`), Quick Theme Switcher (Dark 🌙 / Light ☀️), Global Notification Center, and User Profile.
+- **Bottom Navigation (4 Core Tabs):**
+  1. `Home`: Algorithmic discovery, recent listens, global chart ranking, and featured live broadcasts.
+  2. `Player / Lyrics`: Full-bleed immersive audio experience with interactive lyrics and lightstick connection.
+  3. `Live & Video`: Live concert broadcasts, VOD MV archive, multi-angle cams, and community chat.
+  4. `ARMY Hub`: Complete discography (group + 7 solo members), milestone streaming goals, and fan-curated playlists.
+- **Persistent Mini-Player Dock:** Accessible across all screens, offering rapid play/pause, track info, and scrub preview.
+
+---
+
+### 5. Detailed Screen Specifications & Features
+
+#### 5.1. Home / Discovery Feed (Screen 6)
+- **Personalized Greeting:** Time-aware greeting (`Good evening, ARMY 💜`) with category filter pills (All, Music, Live Concerts, Bangtan Bombs).
+- **Recent Favorites Grid:** 6-tile quick-access matrix for ongoing albums (*Proof*, *Map of the Soul: 7*, *BE*, *Golden*, *Indigo*).
+- **Featured Live Broadcast Card:** Hero card highlighting live stadium streams (*Yet To Come in Busan*) with live viewer counts and direct "Join Stream" CTA.
+- **Curated Playlists:** Horizontal carousels for moods (*ARMY Chill Vibe*, *Hyper Workout*, *Late Night Lo-Fi*).
+- **BTS Global Daily Chart:** Ranked top tracks with play counts, duration, and overflow context menus.
+
+#### 5.2. Now Playing & Synchronized Lyrics (Screen 8)
+- **Visuals:** High-res vinyl artwork with ambient purple neon glow matching the album art palette.
+- **Lossless Audio Controls:** Scrub bar, waveform frequency visualizer, shuffle, loop, and tactile playback buttons.
+- **Synced Lyrics & Fanchants:** Real-time synced lyric block supporting Hangul, Romanized pronunciation, and English translation with designated member markers (e.g., `JIMIN / RM`).
+- **ARMY Bomb Bluetooth Integration:** Real-time lightstick sync indicator pulsing in rhythm with track BPM.
+
+#### 5.3. Live & Video Stream (Screen 4)
+- **4K HDR Video Viewport:** Ultra-low latency stream player with resolution selectors, Dolby Atmos audio toggle, and fullscreen trigger.
+- **Live Fan Interaction:** Real-time synchronized chat feed with verified ARMY badges, animated floating purple hearts on tap, and viewer counters.
+- **Multi-Angle Camera Switcher:** Quick-access switching between Main Stage, RM Cam, Jin Cam, SUGA Cam, j-hope Cam, Jimin Cam, V Cam, and Jung Kook Cam.
+- **Live Setlist Drawer:** Tracks current song performance and previews upcoming setlist numbers.
+
+#### 5.4. ARMY Hub & Discography (Screen 2 — Light Mode Showcase)
+- **Light Theme Visuals:** Crisp, airy aesthetic utilizing lilac accents, high contrast typography, and clean surface separation.
+- **Member Solo Tabs:** Filter discographies by group or individual members (RM, Jin, SUGA / Agust D, j-hope, Jimin, V, Jung Kook).
+- **Visual Media Archive:** Official MVs, Dance Practices, and concert highlights with 4K UHD tags and view metrics.
+- **Community Curation:** Global ARMY playlists, collaborative mixes, and community streaming targets.
+
+---
+
+### 6. Design System & Tokens Reference
+
+- **Primary Brand Accent:** Borahae Purple (`#A855F7`), Light Violet (`#C084FC`), Deep Royal Purple (`#6D28D9`).
+- **Dark Mode Backgrounds:** Surface Dim (`#15121b`), Container Low (`#1d1a23`), Obsidian (`#0f0d15`).
+- **Light Mode Backgrounds:** Crisp Lilac Wash (`#FAF8FD`), Surface Container (`#F3EEF9`), Deep Plum Text (`#2D1F3F`).
+- **Typography:** `Plus Jakarta Sans` — bold modern geometry with clean readability across track listings and lyrics.
+- **Border Radius:** `8px` (`ROUND_EIGHT`) for structured buttons and album covers; `16px–24px` for cards and floating modal sheets.
+
+---
+
+### 7. Non-Functional Requirements & Technical Considerations
+
+- **Audio/Video Latency:** Sub-second sync between audio playback and live lyrics.
+- **Performance:** 60fps animations for scrubber bar, waveform visualizer, and live heart reaction bursts.
+- **Accessibility:** WCAG AA contrast compliance across both dark and light modes, screen reader labels for music controls, and adjustable lyrics font scale.
+- **Offline Mode:** Local caching for saved playlists and offline lyrics playback.
+
+---
+
+### 8. Release Roadmap
+
+- **Phase 1 (MVP):** Core Audio playback, Discovery Feed, Discography directory, and Light/Dark theme switching *(Completed in Prototype)*.
+- **Phase 2 (Live & Social):** Live concert streaming engine, multi-camera switching, synchronized fanchant karaoke mode.
+- **Phase 3 (Hardware & Global Sync):** Web Bluetooth API integration for physical ARMY Bomb pairing, global synchronized listening parties. 

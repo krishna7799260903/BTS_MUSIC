@@ -1,0 +1,17 @@
+# Personal & Academic files
+*.pdf
+Ramoju Mithilesh_Java_Lab_Record_rollno_corrected.pdf
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary / Log files
+*.log
