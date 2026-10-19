@@ -21,8 +21,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ElectricBolt
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,7 +61,7 @@ fun HomeScreen(
     playerViewModel: MusicPlayerViewModel,
     libraryViewModel: LibraryViewModel,
     armyBombViewModel: ArmyBombViewModel,
-    onNavigateToLive: () -> Unit,
+    onOpenMenu: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val currentTrack by playerViewModel.currentTrack.collectAsState()
@@ -108,30 +110,20 @@ fun HomeScreen(
                     )
                 }
 
-                // Live Stream Pill Shortcut
-                Box(
+                // Three-Line Hamburger Menu Button
+                IconButton(
+                    onClick = onOpenMenu,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Brush.horizontalGradient(listOf(Color(0xFFE11D48), Color(0xFF9333EA))))
-                        .clickable { onNavigateToLive() }
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                    contentAlignment = Alignment.Center
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(DarkCard)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .clip(CircleShape)
-                                .background(Color.White)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = "LIVE",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu",
+                        tint = BorahaeNeon,
+                        modifier = Modifier.size(26.dp)
+                    )
                 }
             }
         }

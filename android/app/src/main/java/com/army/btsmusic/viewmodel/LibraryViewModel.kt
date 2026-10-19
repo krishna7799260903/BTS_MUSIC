@@ -34,6 +34,20 @@ class LibraryViewModel(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    private val _favoriteTrackIds = MutableStateFlow<Set<String>>(
+        setOf("bts-spring-day", "jk-standing-next-to-you", "bts-mikrokosmos", "jimin-like-crazy")
+    )
+    val favoriteTrackIds: StateFlow<Set<String>> = _favoriteTrackIds.asStateFlow()
+
+    fun toggleFavorite(trackId: String) {
+        val current = _favoriteTrackIds.value
+        _favoriteTrackIds.value = if (current.contains(trackId)) {
+            current - trackId
+        } else {
+            current + trackId
+        }
+    }
+
     private val _searchResults = MutableStateFlow<List<Track>>(emptyList())
     val searchResults: StateFlow<List<Track>> = _searchResults.asStateFlow()
 

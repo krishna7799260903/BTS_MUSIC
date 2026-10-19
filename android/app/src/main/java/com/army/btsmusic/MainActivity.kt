@@ -53,7 +53,6 @@ class MainActivity : ComponentActivity() {
                     BtsNavigation(
                         playerViewModel = playerViewModel,
                         libraryViewModel = libraryViewModel,
-                        boraLiveViewModel = boraLiveViewModel,
                         armyBombViewModel = armyBombViewModel,
                         listenTogetherManager = listenTogetherManager
                     )

@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudDone
 import androidx.compose.material.icons.filled.DownloadDone
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Button
@@ -29,6 +30,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -65,9 +67,9 @@ import com.army.btsmusic.viewmodel.MusicPlayerViewModel
 fun LibraryScreen(
     libraryViewModel: LibraryViewModel,
     playerViewModel: MusicPlayerViewModel,
+    onOpenMenu: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val userAccount by libraryViewModel.userAccount.collectAsState()
     val allTracks by libraryViewModel.filteredTracks.collectAsState()
     val downloadedTracks by libraryViewModel.downloadedTracks.collectAsState()
     val currentTrack by playerViewModel.currentTrack.collectAsState()
@@ -85,154 +87,35 @@ fun LibraryScreen(
             .background(DarkBackground),
         contentPadding = PaddingValues(bottom = 120.dp)
     ) {
-        // Screen Title
+        // Screen Title with Hamburger Menu Button
         item {
-            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
-                Text(
-                    text = "Your Library & Downloads",
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(
-                    text = "YouTube Music Sync & Offline Local Storage",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = BorahaeLilac
-                )
-            }
-        }
-
-        // YouTube Account Sync Card
-        item {
-            Card(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 6.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = DarkCard)
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier
-                                    .size(44.dp)
-                                    .clip(CircleShape)
-                                    .background(BorahaePurple),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                if (userAccount.avatarUrl != null) {
-                                    AsyncImage(
-                                        model = userAccount.avatarUrl,
-                                        contentDescription = "Avatar",
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Default.CloudDone,
-                                        contentDescription = null,
-                                        tint = Color.White
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.width(12.dp))
-
-                            Column {
-                                Text(
-                                    text = userAccount.channelTitle,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = if (userAccount.isSignedIn) userAccount.email else "Not connected to YouTube",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = DarkOnSurfaceVariant
-                                )
-                            }
-                        }
-
-                        if (userAccount.isSyncing) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = BorahaeNeon,
-                                strokeWidth = 2.dp
-                            )
-                        } else if (userAccount.isSignedIn) {
-                            Button(
-                                onClick = { libraryViewModel.syncYouTubeLibrary() },
-                                colors = ButtonDefaults.buttonColors(containerColor = BorahaePurple),
-                                shape = RoundedCornerShape(12.dp),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
-                            ) {
-                                Icon(Icons.Default.Sync, contentDescription = null, modifier = Modifier.size(16.dp))
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text("Sync", fontSize = 12.sp)
-                            }
-                        } else {
-                            Button(
-                                onClick = { libraryViewModel.signInWithYouTube("army.borahae@gmail.com") },
-                                colors = ButtonDefaults.buttonColors(containerColor = BorahaeNeon),
-                                shape = RoundedCornerShape(12.dp),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
-                            ) {
-                                Text("Sign In", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-
-                    if (userAccount.isSignedIn) {
-                        Spacer(modifier = Modifier.height(14.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceAround
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "${userAccount.youtubeMusicPlaylistCount}",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = BorahaeNeon
-                                )
-                                Text(
-                                    text = "Synced Playlists",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = DarkOnSurfaceVariant
-                                )
-                            }
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "${userAccount.syncedLikedSongsCount}",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = BorahaeLilac
-                                )
-                                Text(
-                                    text = "Liked BTS Tracks",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = DarkOnSurfaceVariant
-                                )
-                            }
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "${downloadedTracks.size}",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "Saved Offline",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = DarkOnSurfaceVariant
-                                )
-                            }
-                        }
-                    }
+                IconButton(onClick = onOpenMenu) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu",
+                        tint = BorahaeNeon,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Column {
+                    Text(
+                        text = "Your Library & Downloads",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "BTS & Solo Members Offline Storage",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = BorahaeLilac
+                    )
                 }
             }
         }
