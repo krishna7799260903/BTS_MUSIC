@@ -1,14 +1,26 @@
 # 💜 BTS Music — BTS & ARMY Audio-Visual Experience
 
 [![BTS](https://img.shields.io/badge/BTS-Borahae%20💜-8B5CF6?style=for-the-badge)](https://ibighit.com/bts)
-[![Vanilla JS](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Web Bluetooth](https://img.shields.io/badge/Web%20Bluetooth-ARMY%20Bomb-0082FC?style=for-the-badge&logo=bluetooth&logoColor=white)](https://web.dev/bluetooth/)
+[![Android](https://img.shields.io/badge/Android%20App-Jetpack%20Compose-3DDC84?style=for-the-badge&logo=android&logoColor=white)](android/)
+[![Media3](https://img.shields.io/badge/Audio%20Engine-Media3%20ExoPlayer-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](android/)
+[![Vanilla JS](https://img.shields.io/badge/Web%20App-HTML5%20%2F%20CSS3%20%2F%20JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](index.html)
+[![Web Bluetooth](https://img.shields.io/badge/BLE-ARMY%20Bomb%20Sync-0082FC?style=for-the-badge&logo=bluetooth&logoColor=white)](https://web.dev/bluetooth/)
 
-> **A bespoke, high-fidelity audio and video streaming web application crafted exclusively for the global BTS fandom (ARMY).**
+> **A bespoke, high-fidelity audio and video streaming ecosystem crafted exclusively for the global BTS fandom (ARMY). Features both a responsive Web Application and a full-featured native Android application built with Kotlin, Jetpack Compose, Material Design 3, and AndroidX Media3 (ExoPlayer).**
 
-Combining the sleek, discovery-driven user experience of modern streaming platforms with tailored K-pop community and fan-engagement mechanics — including synchronized lyrics & fanchants, live concert broadcasts with floating hearts & chat, discography exploration across all 7 members, and ARMY Bomb lightstick sync.
+---
+
+### 📱 Native Android App (Jetpack Compose)
+A complete native Android app located in [`android/`](android/) ready to build and run in Android Studio. Powered by YouTube Music as its primary backend:
+1. **YouTube Account Sync & Library:** Google / YouTube account login, library sync across group and 7 solo releases.
+2. **Offline Downloads:** High-fidelity audio downloads with local Room database storage.
+3. **Advanced Audio Engine:** 5-band Equalizer, Borahae Bass Boost, 3D Virtualizer, real-time pitch shifting (-6 to +6 st), tempo shifting (0.5x to 2.0x), and automatic silence skipping.
+4. **Interactive Player & Mini-Player:** Smooth animated 24-band frequency visualizer wave.
+5. **Synchronized Lyrics & Fanchants:** Live scrolling lyrics with Hangul, Romanized, English scripts + highlighted fanchants.
+6. **"Bora-Live" Concert Stream:** Multi-angle camera switching (Main Stage, Jungkook, V, Jimin, Rapline, ARMY Ocean), live chat, and floating purple heart cheers.
+7. **Social "Listen Together" Mode:** Real-time synchronized playback rooms with custom codes and participant avatars.
+8. **ARMY Bomb Bluetooth Integration:** Android BLE scanning + built-in software simulator.
+
 
 ---
 

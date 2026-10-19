@@ -1,0 +1,22 @@
+<resources>
+    <!-- Signature Borahae Purple Palette -->
+    <color name="borahae_primary">#8B5CF6</color>
+    <color name="borahae_primary_dark">#6D28D9</color>
+    <color name="borahae_accent">#C084FC</color>
+    <color name="borahae_glow">#D8B4FE</color>
+    <color name="borahae_neon">#E879F9</color>
+
+    <!-- Dark Theme Backgrounds -->
+    <color name="borahae_background_dark">#0D0714</color>
+    <color name="borahae_surface_dark">#180E28</color>
+    <color name="borahae_card_dark">#24153C</color>
+    <color name="borahae_text_primary_dark">#F5F3FF</color>
+    <color name="borahae_text_secondary_dark">#C4B5FD</color>
+
+    <!-- Light Theme Backgrounds -->
+    <color name="borahae_background_light">#FAF5FF</color>
+    <color name="borahae_surface_light">#F3E8FF</color>
+    <color name="borahae_card_light">#E9D5FF</color>
+    <color name="borahae_text_primary_light">#2E1065</color>
+    <color name="borahae_text_secondary_light">#6B21A8</color>
+</resources>

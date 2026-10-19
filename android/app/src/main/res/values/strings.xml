@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BTS Music</string>
+    <string name="app_tagline">Borahae Audio &amp; Video Experience</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_library">Library</string>
+    <string name="tab_bora_live">Bora-Live</string>
+    <string name="tab_social">Together</string>
+    <string name="tab_equalizer">Equalizer</string>
+    <string name="notification_channel_name">BTS Music Playback</string>
+    <string name="notification_channel_desc">Playback controls for BTS Music streaming</string>
+</resources>

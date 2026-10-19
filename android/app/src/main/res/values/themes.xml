@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.BtsMusic" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/borahae_background_dark</item>
+        <item name="android:navigationBarColor">@color/borahae_background_dark</item>
+        <item name="android:windowBackground">@color/borahae_background_dark</item>
+    </style>
+</resources>
